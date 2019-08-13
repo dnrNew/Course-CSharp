@@ -52,7 +52,7 @@ namespace Course.Entities
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("ORDER SUMMARY:");
-            sb.AppendLine("Order moment: " + Momment.ToString("dd/MM/yyyy HH:mm:ss"));
+            sb.AppendLine("Order moment: " + Momment.ToLocalTime());
             sb.AppendLine("Order status: " + Status);
             sb.AppendLine("Client: " + Client.Name
                 + " (" + Client.BirthDate.ToString("dd/MM/yyyy") + ") "
