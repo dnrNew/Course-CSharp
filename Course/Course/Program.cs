@@ -9,46 +9,56 @@ namespace Course
     {
         public static void Main(string[] args)
         {
-            List<Individual> listProducts = new List<Individual>();
+            List<TaxPayer> listTaxPayer = new List<TaxPayer>();
 
-            Console.Write("Enter the number of products: ");
+            Console.Write("Enter the number of tax payers: ");
             int quantity = int.Parse(Console.ReadLine());
 
             for (int i = 1; i <= quantity; i++)
             {
-                Console.WriteLine($"Product #{i} data: ");
-                Console.Write("Common, used or imported (c/u/i)? ");
-                char typeProduct = char.Parse(Console.ReadLine());
+                Console.WriteLine($"Tax payer #{i} data: ");
+                Console.Write("Individual or company (i/c)? ");
+                char typePayer = char.Parse(Console.ReadLine());
+
                 Console.Write("Name: ");
                 string name = Console.ReadLine();
-                Console.Write("Price: ");
-                double price = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
 
-                if (typeProduct == 'i')
+                Console.Write("Anual income: ");
+                double anualIncome = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+
+                if (typePayer == 'i')
                 {
-                    Console.Write("Customs fee: ");
-                    double customsFee = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+                    Console.Write("Health expenditures: ");
+                    double healthExpenditures = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
 
-                    listProducts.Add(new TaxPayer(name, price, customsFee));
+                    listTaxPayer.Add(new Individual(name, anualIncome, healthExpenditures));
                 }
-                else if (typeProduct == 'u')
+                else if (typePayer == 'c')
                 {
-                    Console.Write("Manufacture date (DD/MM/YYYY): ");
-                    DateTime manufacturedDate = DateTime.Parse(Console.ReadLine());
+                    Console.Write("Number of employees: ");
+                    int numberEmployees = int.Parse(Console.ReadLine());
 
-                    listProducts.Add(new UsedProduct(name, price, manufacturedDate));
+                    listTaxPayer.Add(new Company(name, anualIncome, numberEmployees));
                 }
-                else
-                    listProducts.Add(new Individual(name, price));
             }
 
             Console.WriteLine();
-            Console.WriteLine("PRICE TAGS:");
+            Console.WriteLine("TAXES PAID: ");
 
-            foreach (Individual product in listProducts)
+            var sumTaxPayer = 0.0;
+
+            foreach (TaxPayer taxPayer in listTaxPayer)
             {
-                Console.WriteLine(product.PriceTag());
+                taxPayer.AnualIncome = taxPayer.Tax();
+                sumTaxPayer += taxPayer.AnualIncome;
+
+                Console.WriteLine(
+                    taxPayer.Name + ": $ " 
+                    + taxPayer.AnualIncome.ToString("F2", CultureInfo.InvariantCulture));
             }
+
+            Console.WriteLine();
+            Console.WriteLine("TOTAL TAXES: $ " + sumTaxPayer.ToString("F2", CultureInfo.InvariantCulture));
 
             Console.ReadKey();
         }

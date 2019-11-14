@@ -7,22 +7,16 @@ namespace Course.Entities
     {
         public int NumberOfEmployees { get; set; }
 
-        public Company(int numberOfEmployees, string name, double anualIncome) : base (name, anualIncome)
+        public Company(string name, double anualIncome, int numberOfEmployees) : base(name, anualIncome)
         {
             NumberOfEmployees = numberOfEmployees;
         }
 
         public override double Tax()
         {
-            return 0;
-        }
+            var tax = NumberOfEmployees > 10 ? 0.14 : 0.16;
 
-        //public override string PriceTag()
-        //{
-        //    return Name
-        //        + " (used) $ "
-        //        + Price.ToString("F2", CultureInfo.InvariantCulture)
-        //        + $" (Manufacture date: {ManufactureDate.ToString("dd/MM/yyyy")})";
-        //}
+            return AnualIncome * tax;
+        }
     }
 }

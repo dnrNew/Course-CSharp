@@ -9,14 +9,20 @@ namespace Course.Entities
     {
         public double HealthExpenditures{ get; set; }
 
-        public Individual(double healthExpenditures, string name, double anualIncome) : base (name, anualIncome)
+        public Individual(string name, double anualIncome, double healthExpenditures) : base (name, anualIncome)
         {
             HealthExpenditures = healthExpenditures;
         }
 
         public override double Tax()
         {
-            return 0;
+            var tax = AnualIncome <= 20000.00 ? 0.15 : 0.25;
+            AnualIncome = AnualIncome * tax;
+
+            if (HealthExpenditures > 0)
+                AnualIncome = AnualIncome - (HealthExpenditures * 0.5);
+
+            return AnualIncome;
         }
     }
 }
